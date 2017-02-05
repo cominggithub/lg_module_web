@@ -3,7 +3,7 @@ var app = express();
 
 app.get("/", function(req, res) {
 //    res.send('Hello World');
-    res.sendfile('./static/index.htm')
+    res.sendfile('./static/index.html')
 });
 
 app.use(express.static('static'));

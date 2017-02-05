@@ -9,19 +9,23 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
   <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+  <!--icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
 </head>
 <body>
 
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">lg module</a>
+        <a class="navbar-brand" href="#"><i class="material-icons">cloud</i></a>
     </div>
     <ul class="nav navbar-nav">
-      <li class="active"><a href="#">New Task</a></li>
+      <li><a href="#newTask">New Task</a></li>
       <li><a href="#taskHistory">Task History</a></li>
       <li><a href="#">Parameter Template</a></li>
       <li><a href="#">Dot Position Generator</a></li>
+      <li><a href="#modal">modal</a></li>
     </ul>
   </div>
 </nav>
@@ -29,17 +33,20 @@
 <div ng-app="mainApp" ng-controller="taskHistoryController">
 <div class="container-fluid">
 <div class="row">
-    <div class="col-sm-1"> left</div>
-    <div class="col-sm-10"> center
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
         <!--                <div ng-include src="'taskHistory.html'"></div> -->
-                <div ng-view></div> 
+                <div ng-view></div>
     </div>
-    <div class="col-sm-1"> right</div>
+    <div class="col-sm-1"></div>
 </div>
 
 </div>
 </div>
     <script src="controller/mainApp.js"></script>
+    <script src="controller/newTaskController.js"></script>
+    <script src="controller/taskHistoryController.js"></script>
+    <script src="controller/modalController.js"></script>
   <script>
   </script>
 </body>
