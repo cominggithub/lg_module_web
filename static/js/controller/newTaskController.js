@@ -1,4 +1,4 @@
-
+'use strict'
 var app = angular.module("mainApp");
 
 app.controller("newTaskController", function($scope){
@@ -18,6 +18,7 @@ app.controller("newTaskController", function($scope){
     $scope.editParameters = function() {
         alert("edit parameters");
     }
+
 /*
     $scope.close = function(result){
         console.log("close dialog");

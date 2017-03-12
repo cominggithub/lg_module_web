@@ -1,5 +1,7 @@
+'use strict'
+
 var app = angular.module('mainApp');
-console.log("AAAAAAAAAAAAa");
+
 app.controller('modalController', function ($scope) {
     console.log("add modalController");
     $scope.showModal = false;

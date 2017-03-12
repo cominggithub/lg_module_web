@@ -1,7 +1,7 @@
+'use strict'
 //var app = angular.module("mainApp", ["ngRoute"]);
 var app = angular.module("mainApp");
 
-console.log(app.aa);
 app.controller("taskHistoryController", function($scope){
     console.log("add taskHistoryController");
     $scope.taskHistory = [
