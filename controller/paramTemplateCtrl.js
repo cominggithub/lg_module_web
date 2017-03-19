@@ -11,7 +11,11 @@ var templates = [];
 
 function init() {
     return loadFileList()
-    .then(function() {
+    .then(function(confData) {
+        _.each(confData, function(c) {
+
+            templates.push(c);
+        });
         return loadTemplates();
     })
     .catch(function(err) {
@@ -24,15 +28,14 @@ function loadFileList() {
         fs.readFile(templateConf, 'utf-8', function(err, data) {
             if (err) throw err;
 
-            //console.log(data);
-            templates = JSON.parse(data);
-            resolve(templates);
+            resolve(JSON.parse(data));
         })
     });
 }
 
 
 function loadTemplates() {
+
     var pp = _.map(templates, function(t) {
         console.log("load " + t.name + ", " +t.file_name);
         return loadTemplate(t);
@@ -42,6 +45,7 @@ function loadTemplates() {
     return Promise.all(pp);
 
 }
+
 function loadTemplate(template) {
 
 	return new Promise(function(resolve, reject) {
@@ -83,8 +87,6 @@ function ok(req, res, next) {
 
 
 function getTemplates(req, res, next) {
-    console.log("get templates");
-    console.log(templates);
     res.send(templates);
 }
 
