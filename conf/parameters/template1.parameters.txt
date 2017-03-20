@@ -1,0 +1,91 @@
+// for defintions of vars, please see var_def.h
+
+// for light-guide plate (all length units are mm)
+xdim=177.6
+ydim=130.8
+zdim_in=0.6
+
+
+// for optical materials
+n_wl=1
+n_mat=3
+air_indx=1.0
+guide_indx=1.58
+refl_indx=0.0
+
+// for light source (all length units are mm)
+n_x=1
+n_y=20
+n_z=1
+n_tha=180
+n_phi=180
+xl_or=-0.01
+yl_or=6.228
+zl_or=-0.3
+xl_rng=0.0
+yl_rng=118.332
+zl_rng=0.0
+led_ydim=3.0
+led_zdim=0.58
+led_ysamples=3
+led_zsamples=3
+
+// for ray tracing
+n_ray=36000
+n_gauss=1
+ray_threshold=0.05
+
+// for lguide performance (record/measurement)
+nx_rcd=10
+ny_rcd=10
+ntha_rcd=2
+nphi_rcd=2
+xrcd_or=12.0
+yrcd_or=4.15
+xrcd_rng=163
+yrcd_rng=122.5
+
+// for local structure (all length units are mm)
+nx_str=100
+ny_str=100
+center_x=0.0
+center_y=0.0
+xstr_rng=0.012
+ystr_rng=0.012
+str_file=microstr.txt
+
+// for global dot density
+nx_den=10
+ny_den=10
+xden_or=12.0
+yden_or=4.15
+den_2_pos_scale=10000.0
+xden_rng=163.0
+yden_rng=122.5
+
+// for dot spatial pattern
+n_dots=50
+partn_x=10
+partn_y=10
+hex_bl=T
+hex_lng=0.1
+
+// for dot position (* dot_position.dat)
+enable_dot_pos_file=1
+#dot_pos_file=../../data/001w.dot_pos.dat
+#dot_pos_file=../../../data/01m.dot_pos.dat
+#dot_pos_file=../../data/01.dot_pos.dat
+#dot_pos_file=../../data/151118_43.0um_m1.txt
+#dot_pos_file=../../data/151118_43.0um_m1.txt
+dot_pos_file=../../data/program_test.txt
+
+// debug
+enable_gnu_plot=0
+enable_ray_index_log=0
+enable_ray_csv=0
+enable_block_hit_log=0
+enable_dump_dot_block=0
+
+// output_file_name
+output_opt_record_dat=output.opt_record.dat
+output_opt_record_txt=output.opt_record.txt

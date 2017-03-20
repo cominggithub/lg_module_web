@@ -1,0 +1,14 @@
+tr {
+   line-height: 25px;
+   min-height: 25px;
+   height: 25px;
+}
+
+
+.modified {
+    color:red;
+}
+
+.unmodified {
+    color:blue;
+}

@@ -22,6 +22,10 @@ app.controller("paramTemplateEditorCtrl",  function($scope, $http, aservice, bac
             $scope.parameters.templates = response.data;
             $scope.parameters.selected = $scope.parameters.templates[0];
             $scope.parameters.default = $scope.parameters.templates[0];
+
+            for(var i=1; i<$scope.parameters.templates.length; i++) {
+                diffTemplate($scope.parameters.templates[0], $scope.parameters.templates[i]);
+            }
         });
 
     $scope.save = function() {
@@ -37,6 +41,10 @@ app.controller("paramTemplateEditorCtrl",  function($scope, $http, aservice, bac
         $scope.parameters.selected = newTemplate;
         console.log($scope.parameters.templates);
     }
+
+    $scope.parameter_changed = function() {
+        diffTemplate($scope.parameters.templates[0], $scope.parameters.selected);
+    }
 });
 
 
@@ -48,7 +56,11 @@ function copyTemplate(srcTemplate, templateName) {
     return newTemplate;
 }
 
-
+function diffTemplate(srcTemplate, modifiedTemplate) {
+    for(var i=0; i<srcTemplate.data.length; i++) {
+        modifiedTemplate.data[i].modified = modifiedTemplate.data[i].value !== srcTemplate.data[i].value;
+    }
+}
 
 
 

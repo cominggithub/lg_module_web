@@ -28,8 +28,9 @@
         </thead>
         <tbody>
             <tr ng-repeat="x in parameters.selected.data">
-                <td>{{ x.name }}</td>
-                <td><input type="text" ng-model="x.value"></input></td>
+                <td ng-class="{true:'modified', false:'unmodified'}[x.modified]">{{ x.name }}</td>
+                <td><input type="text" ng-model="x.value" ng-change="parameter_changed()"></input></td>
+                <td>{{x.modified}}</td>
             </tr>
         </tbody>
     </table>

@@ -46,6 +46,7 @@ function loadTemplates() {
 
 }
 
+
 function loadTemplate(template) {
 
 	return new Promise(function(resolve, reject) {
@@ -65,7 +66,8 @@ function loadTemplate(template) {
     					template.data.push(
     						{
     							"name":n,
-    							"value":v
+    							"value":v,
+                                "modified":false
     						}
     					);
     				}
@@ -78,7 +80,6 @@ function loadTemplate(template) {
             }
 		});
 	});
-
 }
 
 function ok(req, res, next) {
