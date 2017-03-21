@@ -1,6 +1,7 @@
 
 var express = require('express');
 var app = express();
+var bodyParser = require('body-parser');
 require('./controller/paramTemplateCtrl')(app);
 
 
@@ -13,6 +14,10 @@ app.get("/h", function(req, res, next) {
     res.send('Hello World');
 });
 
+app.use(bodyParser.urlencoded({
+      extended: true
+}));
+app.use(bodyParser.json());
 app.use(express.static('static'));
 // app.use("/static/js/controller", express.static('controller'));
 app.use("/images", express.static('images'));

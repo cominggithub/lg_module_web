@@ -91,12 +91,21 @@ function getTemplates(req, res, next) {
     res.send(templates);
 }
 
+function saveTemplate(req, res, next) {
+    console.log(req.params);
+    console.log(req.body);
+
+    res.sendStatus(200);
+}
+
 module.exports = function (app) {
 	init()
 	.then(function()
 	{
 		app.get("/ok", ok);
 		app.get("/conf/parameters/templates", getTemplates);
+        app.put("/conf/parameters/templates/:tname", saveTemplate);
+        app.post("/conf/parameters/templates/:tname", saveTemplate);
 	})
 	.catch(function(err) {
 		console.log("GGGGGGGGGGG");
