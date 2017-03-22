@@ -86,16 +86,74 @@ function ok(req, res, next) {
 	res.send("ok");
 }
 
-
 function getTemplates(req, res, next) {
     res.send(templates);
 }
 
+
+function saveTemplateToFile(template) {
+    var data = "";
+    console.log("save template");
+    console.log(template.name);
+    console.log(template.file_name);
+    _.each(template.data, function(entry) {
+        data += entry.name + "=" + entry.value + "\n";
+    });
+
+    return new Promise(function(resolve, reject) {
+        console.log("write to file " + templatePath + template["file_name"]);
+        console.log(data);
+		fs.writeFile(templatePath + template["file_name"], data, function(err) {
+			if (err) {
+                reject(err);
+            }
+            else {
+    			resolve();
+            }
+		});
+	});
+}
+
+function updateTemplateConf() {
+
+    var conf;
+    conf = _.map(templates, function(t) {
+        return {"name":t.name, "file_name":t.file_name};
+    });
+    console.log("update template conf");
+    console.log(conf);
+    return new Promise(function(resolve, reject) {
+        fs.writeFile(templateConf, JSON.stringify(conf), function(err) {
+            if (err) reject(err);
+            else resolve();
+        });
+    });
+}
 function saveTemplate(req, res, next) {
     console.log(req.params);
     console.log(req.body);
+    var template = req.body;
+    var match = _.find(templates, function(t) { return t.name === template.name});
 
-    res.sendStatus(200);
+    if (match) {
+        _.merge(match, template);
+    }
+    else {
+        match = template;
+        templates.push(template);
+    }
+
+    saveTemplateToFile(match)
+    .then(function(){
+        return updateTemplateConf();
+    })
+    .then(function() {
+        res.sendStatus(200);
+    })
+    .catch(function(err) {
+        next(err);
+        console.error(err, err.stack);
+    });
 }
 
 module.exports = function (app) {

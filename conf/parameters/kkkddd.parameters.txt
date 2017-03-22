@@ -1,4 +1,4 @@
-xdim=177.7
+xdim=177.6
 ydim=130.8
 zdim_in=0.6
 n_wl=1

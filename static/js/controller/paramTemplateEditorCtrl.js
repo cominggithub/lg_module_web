@@ -1,6 +1,7 @@
 'use strict'
 
 var app = angular.module("mainApp");
+var http;
 
 app.controller("paramTemplateEditorCtrl",  function($scope, $http, aservice, backEndService){
     console.log("add paramTemplateEditorCtrl");
@@ -15,6 +16,7 @@ app.controller("paramTemplateEditorCtrl",  function($scope, $http, aservice, bac
 
     console.log($scope.parameters);
 
+    http = $http;
     $http.get('/conf/parameters/templates').
         then(function(response) {
 
@@ -29,9 +31,7 @@ app.controller("paramTemplateEditorCtrl",  function($scope, $http, aservice, bac
         });
 
     $scope.save = function() {
-        $scope.parameters.selected = $scope.parameters.templates[0];
-        console.log($scope.parameters.selected.name);
-        console.log($scope.parameters.selected.data[0].value);
+        saveTemplate($scope.parameters.selected);
     }
 
     $scope.newTemplate = function() {
@@ -52,7 +52,7 @@ function copyTemplate(srcTemplate, templateName) {
     console.log("copy template");
     var newTemplate = angular.copy(srcTemplate);
     newTemplate.name = templateName;
-    newTemplate["file_name"] = templateName.replace(/ /g,'');
+    newTemplate["file_name"] = templateName.replace(/ /g,'') + ".parameters.txt";
     return newTemplate;
 }
 
@@ -60,6 +60,17 @@ function diffTemplate(srcTemplate, modifiedTemplate) {
     for(var i=0; i<srcTemplate.data.length; i++) {
         modifiedTemplate.data[i].modified = modifiedTemplate.data[i].value !== srcTemplate.data[i].value;
     }
+}
+
+function saveTemplate(template) {
+    http.put('/conf/parameters/templates/'+template.name, template)
+    .then(function(res) {
+        console.log(res);
+    })
+    .catch(function(err) {
+        console.error(err, err.stack);
+    })
+
 }
 
 
