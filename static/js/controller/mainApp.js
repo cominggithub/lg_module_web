@@ -2,7 +2,13 @@
 
 console.log("start angular app");
 
-var app=angular.module("mainApp", ["ngRoute"]);
+var app=angular.module("mainApp", ["ngRoute"])
+// allow DI for use in controllers, unit tests
+  .constant('_', window._)
+  // use in views, ng-repeat="x in _.range(3)"
+  .run(function ($rootScope) {
+     $rootScope._ = window._;
+  });
 
 app.config(['$routeProvider', function($routeProvider) {
     $routeProvider

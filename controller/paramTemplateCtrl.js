@@ -114,6 +114,50 @@ function saveTemplateToFile(template) {
 	});
 }
 
+function deleteTemplateFile(templateFileName) {
+
+    return new Promise(function(resolve, reject) {
+        fs.unlink(templatePath + templateFileName, function(err) {
+            if (err) {
+                console.error(err);
+                reject(err);
+            }
+            else {
+                resolve();
+            }
+        })
+    });
+}
+
+function removeTemplate(req, res, next) {
+    console.log(req.params);
+    var tname = req.params.tname;
+
+    var match = _.find(templates, function(t) { return t.name === tname});
+    if (match) {
+        var index = templates.indexOf(match);
+        templates.splice(index, 1);       
+    }
+
+    if (typeof match === 'undefined') {
+        console.log("cannot find template of " + tname);
+        return Promise.resolve();
+    }
+
+    deleteTemplateFile(match.file_name)
+    .then(function() {
+
+        return updateTemplateConf();
+    })
+    .then(function() {
+        res.sendStatus(200);
+    })
+    .catch(function(err) {
+        next(err);
+        console.error(err, err.stack);
+    });
+}
+
 function updateTemplateConf() {
 
     var conf;
@@ -164,6 +208,7 @@ module.exports = function (app) {
 		app.get("/conf/parameters/templates", getTemplates);
         app.put("/conf/parameters/templates/:tname", saveTemplate);
         app.post("/conf/parameters/templates/:tname", saveTemplate);
+        app.delete("/conf/parameters/templates/:tname", removeTemplate);
 	})
 	.catch(function(err) {
 		console.log("GGGGGGGGGGG");
