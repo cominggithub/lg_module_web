@@ -2,25 +2,60 @@
 //var app = angular.module("mainApp", ["ngRoute"]);
 var app = angular.module("mainApp");
 
-app.controller("taskHistoryController", function($scope){
+app.controller("taskHistoryController", function($scope, $http){
     console.log("add taskHistoryController");
-    $scope.taskHistory = [
-        {
-            no: "1",
-            name:"task1",
-            parameters: "parameters",
-            log: "log",
-            status: "success",
-            date: "2017/1/5 11:22:33"
-        },
-        {
-            no: "2",
-            name:"task2",
-            parameters: "parameters",
-            log: "log",
-            status: "failed",
-            date: "2017/1/5 11:22:33"
+
+    $scope.taskConfig = {
+        "parameters_file": "parameters.txt"
+    }
+    $scope.nextTaskNo = 1;
+    $scope.processCount = 32;
+    $scope.parameters =
+    {
+        "default":{},
+        "current": {
+            "name":"default",
+            "data":[]
         }
-    ];
+    }
+
+    $scope.loadTemplates = function() {
+        console.log("load templates");
+        $http.get('/conf/parameters/templates').
+            then(function(res) {
+                console.log("get temples " + res.data);
+                $scope.parameters.templates = res.data;
+                $scope.parameters.selected = $scope.parameters.templates[0];
+        });
+    }
+
+
+    $scope.newTask = function() {
+        console.log("add a new task");
+        $scope.nextTaskNo++;
+        alert("create new task failed");
+    }
+
+    $scope.toParameterEditor = function() {
+        console.log("to paramter editor");
+        $location.path("paramTemplateEditor");
+    }
+
+    $scope.loadTemplates();
+
+
+    $scope.getTaskB = function() {
+        return new Promise(function(resolve, reject) {
+            $http.get('/tasks')
+            .then(function(res) {
+                console.log("get tasks " + res.data);
+                $scope.tasks = res.data;
+            });
+
+        });
+    }
+
+    $scope.getTaskB();
+
 });
 

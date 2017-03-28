@@ -3,6 +3,7 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 require('./controller/paramTemplateCtrl')(app);
+require('./controller/taskCtrl')(app);
 
 
 app.get("/", function(req, res) {

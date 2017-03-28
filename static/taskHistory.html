@@ -7,15 +7,27 @@
                     <th> log </th>
                     <th> result</th>
                     <th> date </th>
+                    <th> opt_record(dat) </th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="task in taskHistory">
+                <tr ng-repeat="task in tasks">
                     <td> {{task.no}} </td>
-                    <td> {{task.parameters}} </td>
+                    <td>
+                        <a class="btn btn-default" href="{{task.parametersUrl}}">
+                            <span class="glyphicon glyphicon-save"></span> view parameters {{task.parametersUrl}}
+                        </a>
+                    </td>
                     <td> {{task.log}} </td>
                     <td> {{task.status}} </td>
                     <td> {{task.date}} </td>
+                    <td>
+                        <a class="btn btn-default" href="{{task.optRecordUrl}}">
+                            <span class="glyphicon glyphicon-save"></span> download
+                        </a>
+                    </td>
+                    <td>
+                    </td>
                 </tr>
             </tbody>
         </table>

@@ -17,7 +17,6 @@ app.controller("newTaskController", function($scope, $http, $location){
             "data":[]
         }
     }
-    
 
     $scope.loadTemplates = function() {
         console.log("load templates");
@@ -42,4 +41,18 @@ app.controller("newTaskController", function($scope, $http, $location){
     }
 
     $scope.loadTemplates();
+
+
+    $scope.getTaskB = function() {
+        return new Promise(function(resolve, reject) {
+            $http.get('/tasks')
+            .then(function(res) {
+                console.log("get tasks " + res.data);
+                $scope.tasks = res.data;
+            });
+
+        });
+    }
+
+    $scope.getTaskB();
 });

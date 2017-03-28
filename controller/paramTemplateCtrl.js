@@ -136,7 +136,7 @@ function removeTemplate(req, res, next) {
     var match = _.find(templates, function(t) { return t.name === tname});
     if (match) {
         var index = templates.indexOf(match);
-        templates.splice(index, 1);       
+        templates.splice(index, 1);
     }
 
     if (typeof match === 'undefined') {
