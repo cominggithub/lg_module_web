@@ -23,6 +23,7 @@ app.use(express.static('static'));
 // app.use("/static/js/controller", express.static('controller'));
 app.use("/images", express.static('images'));
 app.use("/conf", express.static('conf'));
+app.use("/tasks", express.static('tasks'));
 
 var server = app.listen(8081, function() {
     var host = server.address().address;

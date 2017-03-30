@@ -3,16 +3,14 @@
     <table class="table table-bordered">
         <thead>
             <tr>
+                <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#taskHistory" ng-click="newTask()">New Task</button>
+            </tr>
+            <tr>
                 <th> Field</th>
                 <th> Configuration</th>
-                    
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td> Task No. </td>
-                <td> {{nextTaskNo}} </td>
-            </tr>
             <tr>
                 <td> Execution Mode </td>
                 <td>
@@ -25,36 +23,22 @@
                         </label>
                     </div>
                 </td>
-                <td>
-                </td>
             </tr>
             <tr>
                 <td> Process Count </td>
                 <td>
                     <div class="btn-group" data-toggle="buttons">
-                        <label class="btn btn-default active">
-                            <input type="radio" id="processCount1" autocomplete="off" checked> 1
+                        <label class="btn btn-default active" ng-click="setProcessCnt(1)">
+                            <input type="radio"> 1
                         </label>
-                        <label class="btn btn-default">
-                            <input type="radio" id="processCount2" autocomplete="off"> 2
+                        <label class="btn btn-default" ng-click="setProcessCnt(2)">
+                            <input type="radio"> 2
                         </label>
-                        <label class="btn btn-default">
-                            <input type="radio" id="processCount4" autocomplete="off"> 4
+                        <label class="btn btn-default" ng-click="setProcessCnt(4)">
+                            <input type="radio"> 4
                         </label>
-                        <label class="btn btn-default">
-                            <input type="radio" id="processCount8" autocomplete="off"> 8
-                        </label>
-                        <label class="btn btn-default">
-                            <input type="radio" id="processCount16" autocomplete="off"> 16
-                        </label>
-                        <label class="btn btn-default">
-                            <input type="radio" id="processCount32" autocomplete="off"> 32
-                        </label>
-                        <label class="btn btn-default">
-                            <input type="radio" id="processCount64" autocomplete="off"> 64
-                        </label>
-                        <label class="btn btn-default">
-                            <input type="radio" id="processCount128" autocomplete="off"> 128
+                        <label class="btn btn-default" ng-click="setProcessCnt(8)">
+                            <input type="radio"> 8
                         </label>
                     </div>
                 </td>

@@ -7,6 +7,8 @@ app.controller("newTaskController", function($scope, $http, $location){
     $scope.taskConfig = {
         "parameters_file": "parameters.txt"
     }
+    $scope.task = {}
+    $scope.task.processCnt = 1;
     $scope.nextTaskNo = 1;
     $scope.processCount = 32;
     $scope.parameters =
@@ -31,13 +33,27 @@ app.controller("newTaskController", function($scope, $http, $location){
 
     $scope.newTask = function() {
         console.log("add a new task");
-        $scope.nextTaskNo++;
-        alert("create new task failed");
+        console.log($scope.task);
+        console.log($scope.parameters.selected.file_name);
+        $scope.task.parametersFile = $scope.parameters.selected.file_name;
+        $http.put('/tasks', $scope.task)
+        .then(function(res) {
+            console.log(res);
+        })
+        .catch(function(err) {
+            console.error(err, err.stack);
+        });
+
     }
 
     $scope.toParameterEditor = function() {
         console.log("to paramter editor");
         $location.path("paramTemplateEditor");
+    }
+
+    $scope.setProcessCnt = function(pcnt) {
+        console.log(pcnt);
+        $scope.task.processCnt = pcnt;
     }
 
     $scope.loadTemplates();

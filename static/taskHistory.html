@@ -2,31 +2,25 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th> task number</th>
+                    <th> name</th>
                     <th> parameters </th>
-                    <th> log </th>
-                    <th> result</th>
-                    <th> date </th>
+                    <th> status</th>
                     <th> opt_record(dat) </th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="task in tasks">
-                    <td> {{task.no}} </td>
+                    <td> {{task.name}} </td>
                     <td>
                         <a class="btn btn-default" href="{{task.parametersUrl}}">
-                            <span class="glyphicon glyphicon-save"></span> view parameters {{task.parametersUrl}}
+                            <span class="glyphicon glyphicon-save"></span> view parameters
                         </a>
                     </td>
-                    <td> {{task.log}} </td>
                     <td> {{task.status}} </td>
-                    <td> {{task.date}} </td>
                     <td>
                         <a class="btn btn-default" href="{{task.optRecordUrl}}">
                             <span class="glyphicon glyphicon-save"></span> download
                         </a>
-                    </td>
-                    <td>
                     </td>
                 </tr>
             </tbody>
