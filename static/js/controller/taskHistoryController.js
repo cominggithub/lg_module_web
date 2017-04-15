@@ -2,7 +2,7 @@
 //var app = angular.module("mainApp", ["ngRoute"]);
 var app = angular.module("mainApp");
 
-app.controller("taskHistoryController", function($scope, $http){
+app.controller("taskHistoryController", function($scope, $http, $interval){
     console.log("add taskHistoryController");
 
     $scope.taskConfig = {
@@ -45,6 +45,7 @@ app.controller("taskHistoryController", function($scope, $http){
 
 
     $scope.getTaskB = function() {
+        console.log("getTaskB");
         return new Promise(function(resolve, reject) {
             $http.get('/tasks')
             .then(function(res) {
@@ -55,7 +56,23 @@ app.controller("taskHistoryController", function($scope, $http){
         });
     }
 
+    $scope.removeTaskB = function(taskName) {
+        console.log("remove TaskB: " + taskName);
+        return new Promise(function(resolve, reject) {
+            $http.delete('/tasks/'+taskName)
+            .then(function(res) {
+                console.log(res);
+            });
+
+        })
+    }
+
+    $scope.removeTask = function(taskName) {
+        $scope.removeTaskB(taskName);
+    }
+
     $scope.getTaskB();
+    $interval($scope.getTaskB, 1000*5);
 
 });
 

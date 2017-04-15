@@ -6,6 +6,7 @@
                     <th> parameters </th>
                     <th> status</th>
                     <th> opt_record(dat) </th>
+                    <th> remove </th>
                 </tr>
             </thead>
             <tbody>
@@ -16,11 +17,15 @@
                             <span class="glyphicon glyphicon-save"></span> view parameters
                         </a>
                     </td>
-                    <td> {{task.status}} </td>
+                    <td> 
+                        <button type="button" class="btn btn-default" ng-class="{'btn-info':task.status=='in execution', 'btn-success':task.status=='finished'}">{{task.status}}</button>
                     <td>
                         <a class="btn btn-default" href="{{task.optRecordUrl}}">
                             <span class="glyphicon glyphicon-save"></span> download
                         </a>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger" ng-click="removeTask(task.name)">remove</button>
                     </td>
                 </tr>
             </tbody>

@@ -16,13 +16,12 @@ function getTaskFolders() {
 
     return new Promise(function(resolve, reject) {
         fs.readdir(historyFolder, function(err, folders) {
-            console.log(historyFolder);
             if (err) {
                 console.error(err, err.stack);
                 reject(err);
             }
             else {
-                console.log(folders);
+                folders.sort();
                 resolve(folders);
             }
         })
@@ -30,7 +29,6 @@ function getTaskFolders() {
 }
 
 function syncTasksInFS() {
-    console.log("sync task folders");
     tasks = [];
     return getTaskFolders()
         .then(function(folders) {
@@ -42,7 +40,6 @@ function syncTasksInFS() {
 }
 
 function readFile(file) {
-    console.log("read file " + file);
     return new Promise(function(resolve, reject) {
         fs.readFile(file, 'utf-8', function(err, data) {
             if (err) {
@@ -91,7 +88,6 @@ function updateStatus(task) {
 function loadTask(folder) {
     var t = {};
     var path = "./tasks/history/"+folder + "/";
-    console.log("load task " + folder);
     t.no = taskSeq++;
     t.name = folder;
     t.startTime = moment.now();
@@ -102,12 +98,10 @@ function loadTask(folder) {
     t.status = "not updated";
     return loadPid(t, path)
     .then(function() {
-        console.log("update status");
         return updateStatus(t);
     })
     .then(function() {
-        console.log("TTTTT");
-        tasks.push(t);
+        tasks.unshift(t);
         return Promise.resolve();
     })
 }
@@ -115,16 +109,13 @@ function loadTask(folder) {
 
 
 function init() {
-    console.log("taskCtrl init");
     return syncTasksInFS();
 }
 
 function getTasksR(req, res, next) {
 
-    console.log("get tasks");
     syncTasksInFS()
     .then(function() {
-        console.log("WWWW");
         res.send(tasks);
     })
     .catch(function(err) {
@@ -145,6 +136,43 @@ function addTask(task) {
 
     return Promise.resolve(task);
 }
+
+function removeFolderR(path) {
+    var deleteFolderRecursive = function(path) {
+        if( fs.existsSync(path) ) {
+            fs.readdirSync(path).forEach(function(file,index){
+                var curPath = path + "/" + file;
+                if(fs.lstatSync(curPath).isDirectory()) { // recurse
+                    deleteFolderRecursive(curPath);
+                } else { // delete file
+                    fs.unlinkSync(curPath);
+                }
+            });
+            fs.rmdirSync(path);
+        }
+    };
+}
+
+function getTaskPids(taskName) {
+
+    return undefined;
+}
+function removeTaskFolder(taskName) {
+    removeFolderR(historyFolder+"/"+taskName);
+}
+
+function removeTask(taskName) {
+    stopTask(taskName);
+//    removeTaskFolder(taskName);
+}
+
+
+function stopTask(taskName) {
+    var pids = getTaskPids(taskName);
+    _.each(pids, function(pid) {
+        process.kill(pid);
+    });
+}
 function newTaskR(req, res, next) {
 
     console.log("new task");
@@ -162,13 +190,14 @@ function newTaskR(req, res, next) {
 }
 
 function stopTaskR(req, res, next) {
-    console.log("task task " + req.param.taskId);
+    console.log("task task " + req.params.taskName);
+    stopTask(req.params.taskName);
     res.sendStatus(200);
 }
 
 function removeTaskR(req, res, next) {
-
-    console.log("remote task " + req.param.taskId);
+    console.log("remove task " + req.params.taskName);
+    removeTask(req.params.taskName);
     res.sendStatus(200);
 }
 
@@ -180,7 +209,7 @@ module.exports = function(app) {
         app.get("/tasks", getTasksR);
         app.put("/tasks", newTaskR);
         app.get("/tasks/:taskId/stop", stopTaskR);
-        app.delete("/tasks/:taskId", removeTaskR);
+        app.delete("/tasks/:taskName", removeTaskR);
     })
     .catch(function(err) {
         console.error(err);
