@@ -2,7 +2,7 @@
 
 var _ = require('lodash');
 var fs = require('fs');
-var process = require('child_process');
+var proc = require('child_process');
 var moment = require('moment');
 var isRunning = require('is-running');
 var runningTaskFolder = "./tasks/running";
@@ -36,6 +36,11 @@ function syncTasksInFS() {
                 return loadTask(folder);
             });
             return Promise.all(pp);
+        })
+        .then(function() {
+
+            tasks.sort(function(a,b) {return a.name < b.name});
+            return Promise.resolve();
         });
 }
 
@@ -53,13 +58,30 @@ function readFile(file) {
     })
 }
 
+function writeToFile(path, data) {
+    return new Promise(function(resolve, reject) {
+        fs.writeFile(path, data, function(err) {
+            if (err) {
+                reject(err);
+            }
+            else {
+                resolve();
+            }
+        });
+    });
+}
+
 function loadPid(task, path) {
+
+    if (typeof task.pid === 'undefined') {
+        task.pid = {};
+        task.pid.bash = undefined;
+        task.pid.rayHandlers = undefined;
+    }
 
     return readFile(path+"bash.pid")
     .then(function(bashPid) {
-        if (typeof task.pid === 'undefined') {
-            task.pid = {};
-        }
+
 
         task.pid.bash = bashPid.replace("\n", "");
         return readFile(path+"ray_handler.pid");
@@ -73,11 +95,36 @@ function loadPid(task, path) {
     });
 }
 
+function isPidAlive(pid) {
+    return isRunning(pid);
+}
+
+function taskPath(taskName) {
+    return historyFolder+"/"+taskName;
+}
+
+function handleErrorTask(task) {
+    console.log("handle error task " + task.name + ", " + task.status );
+    task.status = "error";
+    stopTask(task)
+    .then(function() {
+        return writeToFile(taskPath(task.name)+"/status", task.status);
+    })
+    .catch(function(err) {
+        console.error(err, err.stack);
+    });
+}
+
 function updateStatus(task) {
     var path = "./tasks/history/"+task.name + "/";
     return readFile(path + "status")
     .then(function(status) {
         task.status = status.replace("\n", "");
+        if (task.status === 'in execution') {
+            if (!isPidAlive(task.pid.bash)) {
+                return handleErrorTask(task);
+            }
+        }
         return Promise.resolve();
     })
     .catch(function(err) {
@@ -128,7 +175,7 @@ function addTask(task) {
     var outputFolder;
     task.name = moment().format("YYYY_MM_DD_HH_mm_ss");
     task.outputFolder = "./tasks/history/"+task.name;
-    var p = process.execFile("./bin/run_mac_multi.sh", ["-p", "-output="+task.outputFolder, "-param=./conf/parameters/"+task.parametersFile, "-n="+task.processCnt]);
+    var p = proc.execFile("./bin/run_mac_multi.sh", ["-p", "-output="+task.outputFolder, "-param=./conf/parameters/"+task.parametersFile, "-n="+task.processCnt]);
     p.stdout.on('data', function(data) {
         console.log(data.toString());
     });
@@ -137,41 +184,57 @@ function addTask(task) {
     return Promise.resolve(task);
 }
 
-function removeFolderR(path) {
-    var deleteFolderRecursive = function(path) {
-        if( fs.existsSync(path) ) {
-            fs.readdirSync(path).forEach(function(file,index){
-                var curPath = path + "/" + file;
-                if(fs.lstatSync(curPath).isDirectory()) { // recurse
-                    deleteFolderRecursive(curPath);
-                } else { // delete file
-                    fs.unlinkSync(curPath);
-                }
-            });
-            fs.rmdirSync(path);
-        }
-    };
+function getTask(name) {
+    return _.find(tasks, "name", name);
 }
 
-function getTaskPids(taskName) {
+function removeFolderR(path) {
+    if( fs.existsSync(path) ) {
+        fs.readdirSync(path).forEach(function(file,index){
+            var curPath = path + "/" + file;
+            if(fs.lstatSync(curPath).isDirectory()) { // recurse
+                removeFolderR(curPath);
+            } else { // delete file
+                fs.unlinkSync(curPath);
+            }
+        });
+        fs.rmdirSync(path);
+    }
+}
 
-    return undefined;
+function getTaskPids(task) {
+    var pids = [];
+    if (typeof task.pid.bash !== 'undefined') {
+        pids.push(task.pid.bash);
+    }
+    _.each(task.pid.rayHandlers, function(pid) {
+
+        pids.push(pid);
+    });
+
+    return pids;
+
 }
 function removeTaskFolder(taskName) {
+    console.log("remove folder " + historyFolder+"/"+taskName);
     removeFolderR(historyFolder+"/"+taskName);
 }
 
-function removeTask(taskName) {
-    stopTask(taskName);
-//    removeTaskFolder(taskName);
+function removeTask(task) {
+    stopTask(task);
+    removeTaskFolder(task.name);
 }
 
 
-function stopTask(taskName) {
-    var pids = getTaskPids(taskName);
+function stopTask(task) {
+    var pids = getTaskPids(task);
     _.each(pids, function(pid) {
-        process.kill(pid);
+        if (isRunning(pid)) {
+            process.kill(pid);
+        }
     });
+
+    return Promise.resolve();
 }
 function newTaskR(req, res, next) {
 
@@ -197,7 +260,8 @@ function stopTaskR(req, res, next) {
 
 function removeTaskR(req, res, next) {
     console.log("remove task " + req.params.taskName);
-    removeTask(req.params.taskName);
+    var task = getTask(req.params.taskName);
+    removeTask(task);
     res.sendStatus(200);
 }
 

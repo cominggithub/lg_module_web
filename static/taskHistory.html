@@ -17,8 +17,11 @@
                             <span class="glyphicon glyphicon-save"></span> view parameters
                         </a>
                     </td>
-                    <td> 
-                        <button type="button" class="btn btn-default" ng-class="{'btn-info':task.status=='in execution', 'btn-success':task.status=='finished'}">{{task.status}}</button>
+                    <td>
+                        <button type="button" class="btn btn-default"
+                            ng-class="{'btn-info':task.status=='in execution', 'btn-success':task.status=='finished', 'btn-danger':task.status=='error'}">
+                            {{task.status}}
+                        </button>
                     <td>
                         <a class="btn btn-default" href="{{task.optRecordUrl}}">
                             <span class="glyphicon glyphicon-save"></span> download
