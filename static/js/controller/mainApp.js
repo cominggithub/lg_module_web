@@ -12,14 +12,11 @@ var app=angular.module("mainApp", ["ngRoute"])
 
 app.config(['$routeProvider', function($routeProvider) {
     $routeProvider
-    .when("/taskHistory", {
-        templateUrl: "taskHistory.html"
+    .when("/task", {
+        templateUrl: "task.html"
     })
     .when("/modal", {
         templateUrl: "modal.html"
-    })
-    .when("/newTask", {
-        templateUrl: "newTask.html"
     })
     .when("/paramTemplateEditor", {
         templateUrl: "paramTemplateEditor.html"

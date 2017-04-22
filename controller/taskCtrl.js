@@ -141,7 +141,8 @@ function loadTask(folder) {
     t.processCnt = 2;
     t.executionMode = "seq";
     t.parametersUrl = "/tasks/history/"+t.name + "/parameters.txt";
-    t.optRecordUrl = "/tasks/history/"+t.name + "/output.opt_record.txt";
+    t.optRecordDatUrl = "/tasks/history/"+t.name + "/output.opt_record.dat";
+    t.optRecordTxtUrl = "/tasks/history/"+t.name + "/output.opt_record.txt";
     t.status = "not updated";
     return loadPid(t, path)
     .then(function() {
@@ -175,6 +176,7 @@ function addTask(task) {
     var outputFolder;
     task.name = moment().format("YYYY_MM_DD_HH_mm_ss");
     task.outputFolder = "./tasks/history/"+task.name;
+    console.log("./bin/run_mac_multi.sh " + "-p " + "-output=" + task.outputFolder + " -param=./conf/parameters/"+task.parametersFile + " -n="+task.processCnt);
     var p = proc.execFile("./bin/run_mac_multi.sh", ["-p", "-output="+task.outputFolder, "-param=./conf/parameters/"+task.parametersFile, "-n="+task.processCnt]);
     p.stdout.on('data', function(data) {
         console.log(data.toString());
@@ -185,7 +187,7 @@ function addTask(task) {
 }
 
 function getTask(name) {
-    return _.find(tasks, "name", name);
+    return _.find(tasks, {"name":name});
 }
 
 function removeFolderR(path) {

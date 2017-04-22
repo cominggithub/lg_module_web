@@ -62,6 +62,7 @@ app.controller("taskHistoryController", function($scope, $http, $interval){
             $http.delete('/tasks/'+taskName)
             .then(function(res) {
                 console.log(res);
+                $scope.getTaskB();
             });
 
         })

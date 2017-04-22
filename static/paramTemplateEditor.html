@@ -1,6 +1,4 @@
 <div ng-controller="paramTemplateEditorCtrl">
-
-
     <table class="table">
         <tr>
             <td>parameter template {{parameters.selected.name}}</td>
@@ -13,12 +11,10 @@
                 </select>
             </td>
             <td>
-                <div>
-
-                    <button type="button" class="btn btn-danger pull-right" ng-click="remove()">Remove</button>
-                    <button type="button" class="btn btn-success pull-right" ng-click="save()">Save</button>
-                    <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#newTemplateModal">New Template</button>
-
+                <div class="container-fluid pull-right">
+                    <button type="button" class="btn btn-danger" ng-click="remove()">Remove</button>
+                    <button type="button" class="btn btn-success" ng-click="save()">Save</button>
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#newTemplateModal">New Template</button>
                 </div>
             </td>
         </tr>
@@ -31,9 +27,25 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="x in parameters.selected.data">
-                <td ng-class="{true:'modified', false:'unmodified'}[x.modified]">{{ x.name }}</td>
-                <td><input type="text" ng-model="x.value" ng-change="parameter_changed()"></input></td>
+            <tr>
+                <td ng-class="{true:'modified', false:'unmodified'}[x.modified]">dot_pos_file</td>
+                <td>
+                    <select name="repeatSelect" id="dotPosFileSelect"
+                        ng-model="dotPosFiles.selected"
+                        ng-options="f.name for f in dotPosFiles.files"
+                        ng-show="dotPosFiles.selected"
+                        >
+                    </select>
+                </td>
+
+            </tr>
+            <tr ng-repeat="x in parameters.selected.data" ng-show="x.name!='dot_pos_file'">
+                <td ng-class="{true:'modified', false:'unmodified'}[x.modified]">
+                    {{ x.name }}
+                </td>
+                <td><input type="text" ng-model="x.value" ng-change="parameter_changed()" >
+                    
+                </input></td>
             </tr>
         </tbody>
     </table>

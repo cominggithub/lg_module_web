@@ -18,6 +18,17 @@ app.controller("paramTemplateEditorCtrl",  function($scope, $http, aservice, bac
             "data":[]
         }
     }
+
+    $scope.dotPosFiles = {
+        "files":
+        [
+            {"name": "a.txt"},
+            {"name":"b.txt"},
+            {"name":"c.txt"}
+        ]
+    }
+
+    $scope.dotPosFiles.selected = $scope.dotPosFiles.files[0];
     
 
     $scope.loadTemplates = function() {
