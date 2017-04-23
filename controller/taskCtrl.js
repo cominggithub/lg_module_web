@@ -17,7 +17,6 @@ function getTaskFolders() {
     return new Promise(function(resolve, reject) {
         fs.readdir(historyFolder, function(err, folders) {
             if (err) {
-                console.error(err, err.stack);
                 reject(err);
             }
             else {
@@ -48,7 +47,6 @@ function readFile(file) {
     return new Promise(function(resolve, reject) {
         fs.readFile(file, 'utf-8', function(err, data) {
             if (err) {
-                console.error(err, err.stack);
                 reject(err);
             }
             else {
@@ -81,8 +79,6 @@ function loadPid(task, path) {
 
     return readFile(path+"bash.pid")
     .then(function(bashPid) {
-
-
         task.pid.bash = bashPid.replace("\n", "");
         return readFile(path+"ray_handler.pid");
     })
@@ -91,7 +87,7 @@ function loadPid(task, path) {
         return Promise.resolve();
     })
     .catch(function(err) {
-        console.error(err, err.stack);
+        //console.error(err, err.stack);
     });
 }
 
@@ -111,7 +107,7 @@ function handleErrorTask(task) {
         return writeToFile(taskPath(task.name)+"/status", task.status);
     })
     .catch(function(err) {
-        console.error(err, err.stack);
+        //console.error(err, err.stack);
     });
 }
 
@@ -128,7 +124,7 @@ function updateStatus(task) {
         return Promise.resolve();
     })
     .catch(function(err) {
-        console.error(err, err.stack);
+        //console.error(err, err.stack);
     })
 }
 
@@ -200,7 +196,9 @@ function removeFolderR(path) {
                 fs.unlinkSync(curPath);
             }
         });
-        fs.rmdirSync(path);
+        console.log("rm " + path);
+        var result = fs.rmdirSync(path);
+        console.log(result);
     }
 }
 

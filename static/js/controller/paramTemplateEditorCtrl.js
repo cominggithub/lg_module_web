@@ -29,8 +29,15 @@ app.controller("paramTemplateEditorCtrl",  function($scope, $http, aservice, bac
     }
 
     $scope.dotPosFiles.selected = $scope.dotPosFiles.files[0];
-    
 
+    $scope.loadDotPosFiles = function() {
+        $http.get('/conf/dotPosFiles').
+            then(function(res) {
+                $scope.dotPosFiles.files = res.data;
+                $scope.dotPosFiles.selected = $scope.dotPosFiles.files[0];
+        });
+
+    }
     $scope.loadTemplates = function() {
         $http.get('/conf/parameters/templates').
             then(function(res) {
@@ -63,7 +70,7 @@ app.controller("paramTemplateEditorCtrl",  function($scope, $http, aservice, bac
         var match = _.find($scope.parameters.templates, function(t) { return t.name === $scope.parameters.selected.name});
         if (match) {
             var index = $scope.parameters.templates.indexOf(match);
-            $scope.parameters.templates.splice(index, 1);       
+            $scope.parameters.templates.splice(index, 1);
         }
         $scope.loadTemplates();
     }
@@ -73,6 +80,7 @@ app.controller("paramTemplateEditorCtrl",  function($scope, $http, aservice, bac
     }
 
     $scope.loadTemplates();
+    $scope.loadDotPosFiles();
 });
 
 

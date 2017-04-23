@@ -19,6 +19,15 @@ app.controller("taskHistoryController", function($scope, $http, $interval){
         }
     }
 
+    $scope.dotPosFiles = {
+        "files": [
+            {"name":"a.txt"},
+            {"name":"b.txt"}
+        ]
+    }
+
+    $scope.dotPosFiles.selected = $scope.dotPosFiles.files[0];
+
     $scope.loadTemplates = function() {
         console.log("load templates");
         $http.get('/conf/parameters/templates').
@@ -45,11 +54,9 @@ app.controller("taskHistoryController", function($scope, $http, $interval){
 
 
     $scope.getTaskB = function() {
-        console.log("getTaskB");
         return new Promise(function(resolve, reject) {
             $http.get('/tasks')
             .then(function(res) {
-                console.log("get tasks " + res.data);
                 $scope.tasks = res.data;
             });
 
@@ -62,7 +69,6 @@ app.controller("taskHistoryController", function($scope, $http, $interval){
             $http.delete('/tasks/'+taskName)
             .then(function(res) {
                 console.log(res);
-                $scope.getTaskB();
             });
 
         })
