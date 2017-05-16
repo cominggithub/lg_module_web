@@ -20,12 +20,15 @@ app.config(['$routeProvider', function($routeProvider) {
     })
     .when("/paramTemplateEditor", {
         templateUrl: "paramTemplateEditor.html"
+    })
+    .when("/uploadDotPos", {
+        templateUrl: "uploadDotPos.html"
     });
 
 }]);
 
 function getDefaultParameters(http) {
-    
+
 
 }
 
