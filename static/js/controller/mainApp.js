@@ -2,7 +2,7 @@
 
 console.log("start angular app");
 
-var app=angular.module("mainApp", ["ngRoute"])
+var app=angular.module("mainApp", ["ngRoute", "angularFileUpload"])
 // allow DI for use in controllers, unit tests
   .constant('_', window._)
   // use in views, ng-repeat="x in _.range(3)"
@@ -10,6 +10,7 @@ var app=angular.module("mainApp", ["ngRoute"])
      $rootScope._ = window._;
   });
 
+console.log(app.config);
 app.config(['$routeProvider', function($routeProvider) {
     $routeProvider
     .when("/task", {
@@ -21,8 +22,8 @@ app.config(['$routeProvider', function($routeProvider) {
     .when("/paramTemplateEditor", {
         templateUrl: "paramTemplateEditor.html"
     })
-    .when("/uploadDotPos", {
-        templateUrl: "uploadDotPos.html"
+    .when("/dotPos", {
+        templateUrl: "dotPos.html"
     });
 
 }]);

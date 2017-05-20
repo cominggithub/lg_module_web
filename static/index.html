@@ -7,8 +7,12 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-  <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+  <!--<script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>-->
+  <!--<script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>-->
+  <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+  <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-route.js"></script>
+  <script src = "https://cdnjs.cloudflare.com/ajax/libs/angular-file-upload/2.5.0/angular-file-upload.min.js"></script>
+  <!--<script src = "https://cdnjs.cloudflare.com/ajax/libs/angular-file-upload/2.5.0/angular-file-upload.js"></script>-->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
   <!--icons -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -27,13 +31,13 @@
     <ul class="nav navbar-nav">
       <li><a href="#task">Task</a></li>
       <li><a href="#paramTemplateEditor">Parameter Template</a></li>
-      <li><a href="#uploadDotPos">Upload dot pos</a></li>
+      <li><a href="#dotPos">dot pos</a></li>
       <li><a href="#modal">modal</a></li>
     </ul>
   </div>
 </nav>
 
-<div ng-app="mainApp" ng-controller="taskHistoryController">
+<div ng-app="mainApp">
 <div class="container-fluid">
 <div class="row">
     <div class="col-sm-1"></div>
@@ -51,7 +55,7 @@
     <script src="js/controller/taskHistoryController.js"></script>
     <script src="js/controller/modalController.js"></script>
     <script src="js/controller/paramTemplateEditorCtrl.js"></script>
-    <script src="js/controller/uploadDotPosCtrl.js"></script>
+    <script src="js/controller/dotPosCtrl.js"></script>
   <script>
   </script>
 </body>

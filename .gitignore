@@ -3,3 +3,4 @@ node_modules
 tasks
 bin
 data
+conf/dot_pos_files

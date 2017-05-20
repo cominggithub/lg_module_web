@@ -4,7 +4,7 @@ var app = express();
 var bodyParser = require('body-parser');
 require('./controller/paramTemplateCtrl')(app);
 require('./controller/taskCtrl')(app);
-require('./controller/dotPosFileCtrl')(app);
+require('./controller/dotPosCtrl')(app);
 
 
 app.get("/", function(req, res) {

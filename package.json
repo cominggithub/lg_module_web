@@ -18,8 +18,10 @@
   },
   "homepage": "https://github.com/cominggithub/lg_module_web#readme",
   "dependencies": {
+    "angular-file-upload": "^2.5.0",
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
+    "formidable": "^1.1.1",
     "is-running": "^2.1.0",
     "lodash": "^4.17.4",
     "moment": "^2.18.1"
