@@ -118,6 +118,7 @@ function updateStatus(task) {
         task.status = status.replace("\n", "");
         if (task.status === 'in execution') {
             if (!isPidAlive(task.pid.bash)) {
+                console.log("pid not alive");
                 return handleErrorTask(task);
             }
         }

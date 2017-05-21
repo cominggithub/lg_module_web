@@ -83,5 +83,13 @@ app.controller('dotPosCtrl', function($scope, $http, FileUploader) {
 
     }
 
+    $scope.remove = function(name) {
+        $http.delete('/conf/dotPosFiles/'+name).
+            then(function(res) {
+            $scope.loadDotPosFiles();
+        });
+
+    }
+
     $scope.loadDotPosFiles();
 });

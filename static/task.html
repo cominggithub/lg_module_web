@@ -1,63 +1,61 @@
-<div ng-controller="newTaskController" class="container">
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#taskHistory" ng-click="newTask()">New Task</button>
-            </tr>
-            <tr>
-                <th> Field</th>
-                <th> Configuration</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td> Execution Mode </td>
-                <td>
-                    <div class="btn-group" data-toggle="buttons">
-                        <label class="btn btn-default active">
-                            <input type="radio" id="parallel" autocomplete="off" checked> Parallel
-                        </label>
-                        <label class="btn btn-default">
-                            <input type="radio" id="sequential" autocomplete="off"> Sequential
-                        </label>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td> Process Count </td>
-                <td>
-                    <div class="btn-group" data-toggle="buttons">
-                        <label class="btn btn-default active" ng-click="setProcessCnt(1)">
-                            <input type="radio"> 1
-                        </label>
-                        <label class="btn btn-default" ng-click="setProcessCnt(2)">
-                            <input type="radio"> 2
-                        </label>
-                        <label class="btn btn-default" ng-click="setProcessCnt(4)">
-                            <input type="radio"> 4
-                        </label>
-                        <label class="btn btn-default" ng-click="setProcessCnt(8)">
-                            <input type="radio"> 8
-                        </label>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                    <td> Parameters file </td>
+<div ng-controller="taskCtrl" class="container">
+    <div class="col-md-9" style="margin-bottom: 40px">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#taskHistory" ng-click="newTask()">New Task</button>
+                </tr>
+                <tr>
+                    <th> Field</th>
+                    <th> Configuration</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td> Execution Mode </td>
                     <td>
-                        <select class="form-control" name="repeatSelect" id="parametersTemplateSelect"
-                            ng-model="parameters.selected"
-                            ng-options="t.name for t in parameters.templates"
-                            ng-show="parameters.selected"
-                        >
-                        </select>
+                        <div class="btn-group" data-toggle="buttons">
+                            <label class="btn btn-default active">
+                                <input type="radio" id="parallel" autocomplete="off" checked> Parallel
+                            </label>
+                            <label class="btn btn-default">
+                                <input type="radio" id="sequential" autocomplete="off"> Sequential
+                            </label>
+                        </div>
                     </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-</div>
+                </tr>
+                <tr>
+                    <td> Process Count </td>
+                    <td>
+                        <div class="btn-group" data-toggle="buttons">
+                            <label class="btn btn-default active" ng-click="setProcessCnt(1)">
+                                <input type="radio"> 1
+                            </label>
+                            <label class="btn btn-default" ng-click="setProcessCnt(2)">
+                                <input type="radio"> 2
+                            </label>
+                            <label class="btn btn-default" ng-click="setProcessCnt(4)">
+                                <input type="radio"> 4
+                            </label>
+                            <label class="btn btn-default" ng-click="setProcessCnt(8)">
+                                <input type="radio"> 8
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                        <td> Parameters file </td>
+                        <td>
+                            <select class="form-control" name="repeatSelect" id="parametersTemplateSelect"
+                                ng-model="parameters.selected"
+                                ng-options="t.name for t in parameters.templates"
+                                ng-show="parameters.selected"
+                            >
+                            </select>
+                        </td>
+                </tr>
+            </tbody>
+        </table>
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -98,4 +96,5 @@
                 </tr>
             </tbody>
         </table>
+    </div>
 </div>

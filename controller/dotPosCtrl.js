@@ -16,7 +16,6 @@ function syncDotPosFilesInFs() {
     fs.readdirSync(dotPosFilesPath).forEach(function(file,index){
             var curPath = dotPosFilesPath + "/" + file;
             if(!fs.lstatSync(curPath).isDirectory()) { // recurse
-                console.log("dot pos file: " + file);
                 var f = {"name":file};
                 files.push(f);
             }
@@ -43,13 +42,9 @@ function uploadDotPosFileR(req, res, next) {
     try {
         form.parse(req, function (err, fields, files) {
 
-            console.log(files);
-            console.log(fields);
             var oldpath = files.file.path;
             var newpath = dotPosFilesPath + "/" + files.file.name;
 
-            console.log(oldpath);
-            console.log(newpath);
             fs.rename(oldpath, newpath, function (err) {
                 if (err) throw err;
                 res.sendStatus(200);
@@ -62,12 +57,39 @@ function uploadDotPosFileR(req, res, next) {
 
 }
 
+function removeDotPosFileR(req, res, next) {
+
+    var name = req.params.name;
+
+    console.log("remove " + name);
+    new Promise(function(resolve, reject) {
+        fs.unlink(dotPosFilesPath+"/" + name, function(err) {
+            if (err) {
+                console.error(err);
+                reject(err);
+            }
+            else {
+                resolve();
+            }
+        })
+    })
+    .then(function() {
+        res.sendStatus(200);
+    })
+    .catch(function(err) {
+        next(err);
+        console.error(err, err.stack);
+    });
+
+}
+
 module.exports = function(app) {
 
     init()
     .then(function() {
         app.get("/conf/dotPosFiles", getDotPosFilesR);
         app.post("/conf/dotPosFiles", uploadDotPosFileR);
+        app.delete("/conf/dotPosFiles/:name", removeDotPosFileR);
     })
     .catch(function(err) {
         console.error(err);
