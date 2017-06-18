@@ -22,8 +22,8 @@ app.config(['$routeProvider', function($routeProvider) {
     .when("/paramTemplateEditor", {
         templateUrl: "paramTemplateEditor.html"
     })
-    .when("/dotPos", {
-        templateUrl: "dotPos.html"
+    .when("/fileUpload", {
+        templateUrl: "fileUpload.html"
     });
 
 }]);

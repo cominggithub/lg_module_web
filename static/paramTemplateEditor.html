@@ -28,7 +28,7 @@
         </thead>
         <tbody>
             <tr>
-                <td ng-class="{true:'modified', false:'unmodified'}[x.modified]">dot_pos_file</td>
+                <td ng-class="{true:'modified', false:'unmodified'}[x.modified]">dot position file</td>
                 <td>
                     <select class="form-control" name="repeatSelect" id="dotPosFileSelect"
                         ng-model="dotPosFiles.selected"
@@ -39,11 +39,23 @@
                 </td>
 
             </tr>
-            <tr ng-repeat="x in parameters.selected.data" ng-show="x.name!='dot_pos_file'">
+            <tr>
+                <td ng-class="{true:'modified', false:'unmodified'}[x.modified]">micro-structure file</td>
+                <td>
+                    <select class="form-control" name="repeatSelect" id="microStrFileSelect"
+                        ng-model="microStrFiles.selected"
+                        ng-options="f.name for f in microStrFiles.files"
+                        ng-show="microStrFiles.selected"
+                        >
+                    </select>
+                </td>
+
+           </tr>
+           <tr ng-repeat="x in parameters.selected.data" ng-show="x.name!='dot_pos_file' && x.name!='str_file'">
                 <td ng-class="{true:'modified', false:'unmodified'}[x.modified]">
                     {{ x.name }}
                 </td>
-                <td><input type="text" ng-model="x.value" ng-change="parameter_changed()" >
+                <td><input type="text" ng-model="x.value" ng-change="parameterChange()" >
 
                 </input></td>
             </tr>

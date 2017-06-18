@@ -173,8 +173,8 @@ function addTask(task) {
     var outputFolder;
     task.name = moment().format("YYYY_MM_DD_HH_mm_ss");
     task.outputFolder = "./tasks/history/"+task.name;
-    console.log("./bin/run_mac_multi.sh " + "-p " + "-output=" + task.outputFolder + " -param=./conf/parameters/"+task.parametersFile + " -n="+task.processCnt);
-    var p = proc.execFile("./bin/run_mac_multi.sh", ["-p", "-output="+task.outputFolder, "-param=./conf/parameters/"+task.parametersFile, "-n="+task.processCnt]);
+    console.log("./bin/run_web_multi.sh " + "-p " + "-output=" + task.outputFolder + " -param=./conf/parameters/"+task.parametersFile + " -n="+task.processCnt);
+    var p = proc.execFile("./bin/run_web_multi.sh", ["-p", "-output="+task.outputFolder, "-param=./conf/parameters/"+task.parametersFile, "-n="+task.processCnt]);
     p.stdout.on('data', function(data) {
         console.log(data.toString());
     });

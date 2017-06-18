@@ -5,10 +5,7 @@ var http;
 var scope;
 
 app.controller("paramTemplateEditorCtrl",  function($scope, $http, aservice, backEndService){
-    console.log("add paramTemplateEditorCtrl");
     scope = $scope;
-    console.log(scope);
-    console.log($scope);
     http = $http;
     $scope.parameters =
     {
@@ -28,7 +25,17 @@ app.controller("paramTemplateEditorCtrl",  function($scope, $http, aservice, bac
         ]
     }
 
+    $scope.microStrFiles = {
+        "files":
+        [
+            {"name": "microStr1.txt"},
+            {"name": "microStr2.txt"},
+        ]
+    }
+
+
     $scope.dotPosFiles.selected = $scope.dotPosFiles.files[0];
+    $scope.microStrFiles.selected = $scope.microStrFiles.files[0];
 
     $scope.loadDotPosFiles = function() {
         $http.get('/conf/dotPosFiles').
@@ -38,6 +45,16 @@ app.controller("paramTemplateEditorCtrl",  function($scope, $http, aservice, bac
         });
 
     }
+    $scope.loadMicroStrFiles = function() {
+        $http.get('/conf/microStrFiles').
+            then(function(res) {
+                $scope.microStrFiles.files = res.data;
+                $scope.microStrFiles.selected = $scope.microStrFiles.files[0];
+        });
+
+    }
+
+
     $scope.loadTemplates = function() {
         $http.get('/conf/parameters/templates').
             then(function(res) {
@@ -53,16 +70,18 @@ app.controller("paramTemplateEditorCtrl",  function($scope, $http, aservice, bac
 
 
     $scope.save = function() {
+        $scope.parameters.selected["dot_pos_file"] = $scope.dotPosFiles.selected.name;
+        $scope.parameters.selected["str_file"] = $scope.microStrFiles.selected.name;
         saveTemplate($scope.parameters.selected);
     }
 
     $scope.newTemplate = function() {
-        console.log($scope.newTemplateName);
         var newTemplate = copyTemplate($scope.parameters.templates[0], $scope.newTemplateName);
+        $scope.dotPosFiles.selected = $scope.dotPosFiles.files[0];
+        $scope.microStrFiles.selected = $scope.microStrFiles.files[0];
         $scope.parameters.templates.push(newTemplate);
         $scope.parameters.selected = newTemplate;
         $scope.save();
-        console.log($scope.parameters.templates);
     }
 
     $scope.remove = function() {
@@ -75,7 +94,7 @@ app.controller("paramTemplateEditorCtrl",  function($scope, $http, aservice, bac
         $scope.loadTemplates();
     }
 
-    $scope.parameter_changed = function() {
+    $scope.parameterChanged = function() {
         diffTemplate($scope.parameters.templates[0], $scope.parameters.selected);
     }
 
