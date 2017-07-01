@@ -140,6 +140,7 @@ function loadTask(folder) {
     t.parametersUrl = "/tasks/history/"+t.name + "/parameters.txt";
     t.optRecordDatUrl = "/tasks/history/"+t.name + "/output.opt_record.dat";
     t.optRecordTxtUrl = "/tasks/history/"+t.name + "/output.opt_record.txt";
+    t.optRecordPngUrl = "/tasks/history/"+t.name + "/output.opt_record.png";
     t.status = "not updated";
     return loadPid(t, path)
     .then(function() {
@@ -168,13 +169,28 @@ function getTasksR(req, res, next) {
     })
 }
 
+function getMicroStrFile(fname) {
+    var lines = fs.readFileSync(fname, 'utf-8').split('\n').filter(Boolean);
+    var value;
+    lines.forEach(function(line) {
+        var entry = line.split("=");
+        if (entry[0] == "str_file") {
+            value = entry[1];
+        }
+    });
+
+    return value;
+}
+
 function addTask(task) {
     var name = moment().format("YYYY_MM_DD_HH_mm_ss");
     var outputFolder;
     task.name = moment().format("YYYY_MM_DD_HH_mm_ss");
     task.outputFolder = "./tasks/history/"+task.name;
-    console.log("./bin/run_web_multi.sh " + "-p " + "-output=" + task.outputFolder + " -param=./conf/parameters/"+task.parametersFile + " -n="+task.processCnt);
-    var p = proc.execFile("./bin/run_web_multi.sh", ["-p", "-output="+task.outputFolder, "-param=./conf/parameters/"+task.parametersFile, "-n="+task.processCnt]);
+    var microStrFile = "./conf/micro_str/"+getMicroStrFile("./conf/parameters/"+task.parametersFile);
+    console.log(microStrFile);
+    console.log("./bin/run_web_multi.sh " + "-p " + "-output=" + task.outputFolder + " -param=./conf/parameters/"+task.parametersFile + " -microstr=" + microStrFile +" -n="+task.processCnt);
+    var p = proc.execFile("./bin/run_web_multi.sh", ["-p", "-output="+task.outputFolder, "-param=./conf/parameters/"+task.parametersFile, "-microstr="+microStrFile, "-n="+task.processCnt]);
     p.stdout.on('data', function(data) {
         console.log(data.toString());
     });

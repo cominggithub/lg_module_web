@@ -19,17 +19,14 @@ app.controller("paramTemplateEditorCtrl",  function($scope, $http, aservice, bac
     $scope.dotPosFiles = {
         "files":
         [
-            {"name": "a.txt"},
-            {"name":"b.txt"},
-            {"name":"c.txt"}
+            {"name": "no dot position files"}
         ]
     }
 
     $scope.microStrFiles = {
         "files":
         [
-            {"name": "microStr1.txt"},
-            {"name": "microStr2.txt"},
+            {"name": "no micro-structure files"}
         ]
     }
 
@@ -70,8 +67,12 @@ app.controller("paramTemplateEditorCtrl",  function($scope, $http, aservice, bac
 
 
     $scope.save = function() {
-        $scope.parameters.selected["dot_pos_file"] = $scope.dotPosFiles.selected.name;
-        $scope.parameters.selected["str_file"] = $scope.microStrFiles.selected.name;
+        console.log($scope.dotPosFiles.selected.name);
+        console.log($scope.microStrFiles.selected.name);
+        console.log($scope.parameters.selected.data);
+        _.find($scope.parameters.selected.data, {name: "dot_pos_file"})["value"] = "./conf/dot_pos/"+$scope.dotPosFiles.selected.name;
+        _.find($scope.parameters.selected.data, {name: "str_file"})["value"] =$scope.microStrFiles.selected.name;
+
         saveTemplate($scope.parameters.selected);
     }
 
@@ -100,6 +101,7 @@ app.controller("paramTemplateEditorCtrl",  function($scope, $http, aservice, bac
 
     $scope.loadTemplates();
     $scope.loadDotPosFiles();
+    $scope.loadMicroStrFiles();
 });
 
 
@@ -120,7 +122,6 @@ function diffTemplate(srcTemplate, modifiedTemplate) {
 function saveTemplate(template) {
     http.put('/conf/parameters/templates/'+template.name, template)
     .then(function(res) {
-        console.log(res);
     })
     .catch(function(err) {
         console.error(err, err.stack);

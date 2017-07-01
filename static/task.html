@@ -1,5 +1,5 @@
 <div ng-controller="taskCtrl" class="container">
-    <div class="col-md-9" style="margin-bottom: 40px">
+    <div class="col-md-12" style="margin-bottom: 20px">
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -65,6 +65,7 @@
                     <th> opt_record(dat) </th>
                     <th> opt_record(txt) </th>
                     <th> remove </th>
+                    <th> image </th>
                 </tr>
             </thead>
             <tbody>
@@ -92,6 +93,9 @@
                     </td>
                     <td>
                         <button type="button" class="btn btn-danger" ng-click="removeTask(task.name)">remove</button>
+                    </td>
+                    <td>
+                        <a herf="{{task.optRecordPngUrl}}"><img src="{{task.optRecordPngUrl}}" style="width:100%"></a>
                     </td>
                 </tr>
             </tbody>

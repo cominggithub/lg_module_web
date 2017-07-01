@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 require('./controller/paramTemplateCtrl')(app);
 require('./controller/taskCtrl')(app);
 require('./controller/dotPosCtrl')(app);
+require('./controller/microStrCtrl')(app);
 
 
 app.get("/", function(req, res) {

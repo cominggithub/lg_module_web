@@ -2,7 +2,7 @@ var _ = require('lodash');
 var fs = require('fs');
 
 var formidable = require('formidable');
-var dotPosFilesPath = "./conf/dot_pos_files";
+var dotPosFilesPath = "./conf/dot_pos";
 var files = [];
 
 function init() {
